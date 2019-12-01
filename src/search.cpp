@@ -1129,17 +1129,15 @@ moves_loop: // When in check, search starts from here
       captureOrPromotion = pos.capture_or_promotion(move);
       movedPiece = pos.moved_piece(move);
       givesCheck = pos.gives_check(move);
-      //full threads patch begin
-      if(thisThread->fullSearch)
-      {
-		  newDepth = depth - 1;
-          goto skipExtensionAndPruning;
-      }
-      //full threads patch end
 
       // Calculate new depth for this move
       newDepth = depth - 1;
 
+      if(thisThread->fullSearch)
+      {
+          goto skipExtensionAndPruning;
+      }
+	  
       // Step 13. Pruning at shallow depth (~170 Elo)
       if (  !rootNode
           && pos.non_pawn_material(us)
